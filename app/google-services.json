@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "49752873377",
+    "project_id": "deliveryapp-8a0da",
+    "storage_bucket": "deliveryapp-8a0da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49752873377:android:b7ea2051fcd4af27c793e0",
+        "android_client_info": {
+          "package_name": "com.example.parcelwizrd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49752873377-ou4ud5i7c4j4b15e6lej8me60ebor9sn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWbEJ0dA0ZY8k_P7Pp9FoIHqXd0VLPRgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49752873377-ou4ud5i7c4j4b15e6lej8me60ebor9sn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
