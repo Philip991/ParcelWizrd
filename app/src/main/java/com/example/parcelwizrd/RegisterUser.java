@@ -36,6 +36,7 @@ public class RegisterUser extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser mUser;
     String userID= "";
+    private String username ="";
 
 
 
@@ -154,6 +155,7 @@ public class RegisterUser extends AppCompatActivity {
                                 if (task.isSuccessful()){
                                     Toast.makeText(RegisterUser.this,"User Registered Successfully", Toast.LENGTH_LONG).show();
                                     progressDialog.hide();
+                                    sendUserToMainActivity();
 
                                 }
                                 else {
@@ -176,6 +178,14 @@ public class RegisterUser extends AppCompatActivity {
                 }
             });
         }
+
+    }
+
+    public void sendUserToMainActivity(){
+        Intent intent =new Intent(RegisterUser.this,MainActivity.class);
+        intent.putExtra("username", username);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
 
     }
 }
