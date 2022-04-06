@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -32,6 +34,7 @@ public class RegisterUser extends AppCompatActivity {
     EditText Username, Password, Email, confirmPass;
     Button Register;
     TextView Login;
+    TextView riderRegister;
 
     private FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -71,6 +74,7 @@ public class RegisterUser extends AppCompatActivity {
         confirmPass=(EditText)findViewById(R.id.et_confirm_pass);
         Register = (Button) findViewById(R.id.register_btn);
         Login=(TextView) findViewById(R.id.login_btn);
+        riderRegister=(TextView)findViewById(R.id.rider_registration);
 
         progressDialog = new ProgressDialog(this );
 
@@ -89,6 +93,15 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterUser.this,LoginUser.class));
+                finish();
+            }
+        });
+
+        riderRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterUser.this,RiderRegistration.class));
+                finish();
             }
         });
     }
@@ -127,7 +140,7 @@ public class RegisterUser extends AppCompatActivity {
         }
 
         else{
-            progressDialog.setMessage("Creating your acccount...");
+            progressDialog.setMessage("Creating your account...");
             progressDialog.setTitle("Loading..");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
@@ -142,7 +155,7 @@ public class RegisterUser extends AppCompatActivity {
                         userID=firebaseUser.getUid();
 
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(userID);
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(username);
                         HashMap<String, String> hashMap = new HashMap<>();
                         hashMap.put("id",userID);
                         hashMap.put("Username", username);
@@ -155,7 +168,7 @@ public class RegisterUser extends AppCompatActivity {
                                 if (task.isSuccessful()){
                                     Toast.makeText(RegisterUser.this,"User Registered Successfully", Toast.LENGTH_LONG).show();
                                     progressDialog.hide();
-                                    sendUserToMainActivity();
+                                    sendUserToCompleteRegistrationPage();
 
                                 }
                                 else {
@@ -178,6 +191,14 @@ public class RegisterUser extends AppCompatActivity {
                 }
             });
         }
+
+    }
+
+    public void sendUserToCompleteRegistrationPage(){
+        Intent intent =new Intent(RegisterUser.this,UserPortfolio.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
 
     }
 

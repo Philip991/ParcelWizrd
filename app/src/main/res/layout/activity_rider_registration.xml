@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterUser"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    tools:context=".RiderRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,21 +31,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Customer Registration"
+            android:text="Rider Registration"
             android:textSize="20dp"
             android:layout_marginLeft="10dp"/>
 
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="20dp"
-            android:hint="Username"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="#C4C4C4"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"/>
+
 
         <EditText
             android:id="@+id/et_email"
@@ -92,8 +82,7 @@
             android:layout_marginRight="90dp"
             android:background="@drawable/round_input_field"
             android:backgroundTint="#C4C4C4"
-            android:text="Register"
-            android:textAllCaps="false"/>
+            android:text="Register"/>
 
 
         <LinearLayout
@@ -127,25 +116,9 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/rider_registration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Register as a Rider instead?"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
-
-
-        </LinearLayout>
 
     </LinearLayout>
 
 
-</ScrollView>
+
+</LinearLayout>
