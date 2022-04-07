@@ -13,9 +13,6 @@
             android:name=".RiderRegistration"
             android:exported="false" />
         <activity
-            android:name=".UserPortfolio"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

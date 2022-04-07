@@ -6,24 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterUser"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="199dp"
-            android:layout_height="188dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/delivery_logo96" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:text="Welcome To Parcel Wizrd"
             android:textSize="22dp"
             android:textStyle="bold" />
@@ -39,8 +35,8 @@
             android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="20dp"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
             android:hint="Username"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#C4C4C4"
@@ -52,19 +48,124 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="20dp"
+            android:padding="15dp"
             android:hint="Email"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#C4C4C4"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_first_name"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#C4C4C4"
+                android:hint="First name"
+                android:padding="15dp" />
+
+            <EditText
+                android:id="@+id/et_last_name"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#C4C4C4"
+                android:hint="Last Name"
+                android:padding="15dp" />
+
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/et_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:hint="Phone Number*"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#C4C4C4"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:hint="Address"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#C4C4C4"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="188dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#C4C4C4"
+                android:hint="City*"
+                android:padding="15dp" />
+
+            <EditText
+                android:id="@+id/et_state"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#C4C4C4"
+                android:hint="State*"
+                android:padding="15dp" />
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:hint="Country"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#C4C4C4"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="20dp"
+            android:padding="15dp"
             android:hint="Password"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#C4C4C4"
@@ -75,12 +176,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="20dp"
+            android:padding="15dp"
             android:hint="Confirm Password"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#C4C4C4"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By clicking Register, you agree to comply with our terms of use  "
+                android:layout_marginLeft="10dp"/>
+
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/register_btn"
@@ -116,7 +234,7 @@
                 android:textAlignment="center"
                 android:text="here "
                 android:textSize="16sp"
-                android:textColor="@color/red"/>
+                android:textColor="#0066ff"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +248,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -144,6 +262,7 @@
 
 
         </LinearLayout>
+
 
     </LinearLayout>
 

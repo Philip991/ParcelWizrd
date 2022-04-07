@@ -28,7 +28,7 @@ public class RiderRegistration extends AppCompatActivity {
 
     public static final String CUSTOMER_USERS = "RidersUsers";
 
-    EditText Email,Password,confirmPass;
+    EditText Username, Email, FirstName,LastName,PhoneNumber, Address, City, State, Country,VehicleMake, VehicleColor, VehicleRegNo,Password,confirmPass;
 
     Button Register;
 
@@ -61,9 +61,21 @@ public class RiderRegistration extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
 
+        Username = (EditText) findViewById(R.id.et_username);
         Email = (EditText)findViewById(R.id.et_email);
+        FirstName=(EditText)findViewById(R.id.et_first_name);
+        LastName=(EditText) findViewById(R.id.et_last_name);
+        PhoneNumber=(EditText) findViewById(R.id.et_phone_number);
+        Address=(EditText) findViewById(R.id.et_address);
+        City=(EditText) findViewById(R.id.et_city);
+        State= (EditText) findViewById(R.id.et_state);
+        Country=(EditText) findViewById(R.id.et_country);
+        VehicleMake=(EditText)findViewById(R.id.et_vehicle_make);
+        VehicleColor=(EditText)findViewById(R.id.et_vehicle_color);
+        VehicleRegNo=(EditText)findViewById(R.id.et_vehicle_number);
         Password = (EditText) findViewById(R.id.et_password);
         confirmPass=(EditText) findViewById(R.id.et_confirm_pass);
+
 
         Register =(Button) findViewById(R.id.register_btn);
 
@@ -74,7 +86,6 @@ public class RiderRegistration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registerUser();
-                finish();
 
             }
         });
@@ -82,10 +93,26 @@ public class RiderRegistration extends AppCompatActivity {
     }
 
     public void registerUser(){
+        String username =Username.getText().toString().trim();
         String email = Email.getText().toString().trim();
         String password = Password.getText().toString().trim();
         String confirm_pass=confirmPass.getText().toString().trim();
+        String firstName= FirstName.getText().toString();
+        String lastName=LastName.getText().toString();
+        String phoneNumber=PhoneNumber.getText().toString().trim();
+        String address=Address.getText().toString();
+        String city=City.getText().toString();
+        String state= State.getText().toString();
+        String country=Country.getText().toString();
+        String vehicleMake=VehicleMake.getText().toString();
+        String vehicleColor= VehicleColor.getText().toString().trim();
+        String vehicleNum=VehicleRegNo.getText().toString().trim();
 
+        if (username.isEmpty()){
+            Username.setError("Username is required");
+            Username.requestFocus();
+            return;
+        }
         if(email.isEmpty()){
             Email.setError("Email is required");
             Email.requestFocus();
@@ -111,6 +138,56 @@ public class RiderRegistration extends AppCompatActivity {
             confirmPass.requestFocus();
             return;
         }
+        if(firstName.isEmpty()){
+            FirstName.setError("Enter your First Name please");
+            FirstName.requestFocus();
+            return;
+        }
+        if (lastName.isEmpty()){
+            LastName.setError("Enter your Last Name please");
+            LastName.requestFocus();
+            return;
+        }
+        if(phoneNumber.isEmpty()){
+            PhoneNumber.setError("Enter your phone number please");
+            PhoneNumber.requestFocus();
+            return;
+        }
+        if (address.isEmpty()){
+            Address.setError("Enter your preferred delivery address please");
+            Address.requestFocus();
+            return;
+        }
+        if (city.isEmpty()){
+            City.setError("Enter your City please");
+            City.requestFocus();
+            return;
+        }
+        if (state.isEmpty()){
+            State.setError("Enter your state please");
+            State.requestFocus();
+            return;
+        }
+        if (country.isEmpty()){
+            Country.setError("Enter your country please");
+            State.requestFocus();
+            return;
+        }
+        if (vehicleMake.isEmpty()){
+            VehicleMake.setError("Enter your Vehicle make please");
+            VehicleMake.requestFocus();
+            return;
+        }
+        if (vehicleColor.isEmpty()){
+            VehicleColor.setError("Enter your Vehicle Color please");
+            VehicleColor.requestFocus();
+            return;
+        }
+        if (vehicleNum.isEmpty()){
+            VehicleRegNo.setError("Enter your Vehicle Registration Number please");
+            VehicleRegNo.requestFocus();
+            return;
+        }
 
         else{
             progressDialog.setMessage("Creating your account...");
@@ -126,10 +203,21 @@ public class RiderRegistration extends AppCompatActivity {
                         userID= firebaseUser.getUid();
 
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RiderRegistration.CUSTOMER_USERS).child(userID);
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RiderRegistration.CUSTOMER_USERS).child(username);
                         HashMap<String, String>hashMap= new HashMap<>();
                         hashMap.put("id", userID);
+                        hashMap.put("Username", username);
                         hashMap.put("Email",email);
+                        hashMap.put("First Name",firstName);
+                        hashMap.put("Last Name",lastName);
+                        hashMap.put("Phone Number",phoneNumber);
+                        hashMap.put("Address",address);
+                        hashMap.put("City",city);
+                        hashMap.put("State",state);
+                        hashMap.put("Country",country);
+                        hashMap.put("Vehicle Make",vehicleMake);
+                        hashMap.put("Vehicle Color",vehicleColor);
+                        hashMap.put("Vehicle Registration Number",vehicleNum);
 
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

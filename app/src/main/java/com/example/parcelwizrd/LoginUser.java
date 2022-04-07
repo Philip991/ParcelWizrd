@@ -26,6 +26,8 @@ public class LoginUser extends AppCompatActivity {
     Button Login;
     TextView ForgotPass, Register;
 
+
+
     ProgressDialog progressDialog;
 
     FirebaseAuth mAuth;
@@ -61,6 +63,7 @@ public class LoginUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginUser.this,RegisterUser.class));
+                finish();
             }
         });
 

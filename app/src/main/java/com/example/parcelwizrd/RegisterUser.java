@@ -31,7 +31,7 @@ public class RegisterUser extends AppCompatActivity {
 
     public static final String CUSTOMER_USERS = "CustomersUser";
 
-    EditText Username, Password, Email, confirmPass;
+    EditText Username, Email, FirstName,LastName,PhoneNumber, Address, City, State, Country, Password, confirmPass;
     Button Register;
     TextView Login;
     TextView riderRegister;
@@ -70,6 +70,13 @@ public class RegisterUser extends AppCompatActivity {
 
         Username = (EditText) findViewById(R.id.et_username);
         Email=(EditText)findViewById(R.id.et_email);
+        FirstName=(EditText)findViewById(R.id.et_first_name);
+        LastName=(EditText) findViewById(R.id.et_last_name);
+        PhoneNumber=(EditText) findViewById(R.id.et_phone_number);
+        Address=(EditText) findViewById(R.id.et_address);
+        City=(EditText) findViewById(R.id.et_city);
+        State= (EditText) findViewById(R.id.et_state);
+        Country=(EditText) findViewById(R.id.et_country);
         Password = (EditText) findViewById(R.id.et_password);
         confirmPass=(EditText)findViewById(R.id.et_confirm_pass);
         Register = (Button) findViewById(R.id.register_btn);
@@ -110,6 +117,13 @@ public class RegisterUser extends AppCompatActivity {
         String email = Email.getText().toString().trim();
         String password = Password.getText().toString().trim();
         String confirm_password=confirmPass.getText().toString().trim();
+        String firstName= FirstName.getText().toString();
+        String lastName=LastName.getText().toString();
+        String phoneNumber=PhoneNumber.getText().toString().trim();
+        String address=Address.getText().toString();
+        String city=City.getText().toString();
+        String state= State.getText().toString();
+        String country=Country.getText().toString();
 
         if (username.isEmpty()){
             Username.setError("Username is required");
@@ -135,8 +149,41 @@ public class RegisterUser extends AppCompatActivity {
             confirmPass.setError("Passwords don't match");
             confirmPass.requestFocus();
             return;
-
-
+        }
+        if(firstName.isEmpty()){
+            FirstName.setError("Enter your First Name please");
+            FirstName.requestFocus();
+            return;
+        }
+        if (lastName.isEmpty()){
+            LastName.setError("Enter your Last Name please");
+            LastName.requestFocus();
+            return;
+        }
+        if(phoneNumber.isEmpty()){
+            PhoneNumber.setError("Enter your phone number please");
+            PhoneNumber.requestFocus();
+            return;
+        }
+        if (address.isEmpty()){
+            Address.setError("Enter your preferred delivery address please");
+            Address.requestFocus();
+            return;
+        }
+        if (city.isEmpty()){
+            City.setError("Enter your City please");
+            City.requestFocus();
+            return;
+        }
+        if (state.isEmpty()){
+            State.setError("Enter your state please");
+            State.requestFocus();
+            return;
+        }
+        if (country.isEmpty()){
+            Country.setError("Enter your country please");
+            State.requestFocus();
+            return;
         }
 
         else{
@@ -160,6 +207,13 @@ public class RegisterUser extends AppCompatActivity {
                         hashMap.put("id",userID);
                         hashMap.put("Username", username);
                         hashMap.put("Email", email);
+                        hashMap.put("First Name",firstName);
+                        hashMap.put("Last Name",lastName);
+                        hashMap.put("Phone Number",phoneNumber);
+                        hashMap.put("Address",address);
+                        hashMap.put("City",city);
+                        hashMap.put("State",state);
+                        hashMap.put("Country",country);
 
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -168,7 +222,7 @@ public class RegisterUser extends AppCompatActivity {
                                 if (task.isSuccessful()){
                                     Toast.makeText(RegisterUser.this,"User Registered Successfully", Toast.LENGTH_LONG).show();
                                     progressDialog.hide();
-                                    sendUserToCompleteRegistrationPage();
+                                    sendUserToMainActivity();
 
                                 }
                                 else {
@@ -194,13 +248,6 @@ public class RegisterUser extends AppCompatActivity {
 
     }
 
-    public void sendUserToCompleteRegistrationPage(){
-        Intent intent =new Intent(RegisterUser.this,UserPortfolio.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-
-    }
 
     public void sendUserToMainActivity(){
         Intent intent =new Intent(RegisterUser.this,MainActivity.class);
