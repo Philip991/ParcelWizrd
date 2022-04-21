@@ -89,8 +89,6 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registerUser();
-
-
             }
         });
 
@@ -214,6 +212,7 @@ public class RegisterUser extends AppCompatActivity {
                         hashMap.put("City",city);
                         hashMap.put("State",state);
                         hashMap.put("Country",country);
+
 
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

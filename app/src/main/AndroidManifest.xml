@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParcelWizrd">
         <activity
+            android:name=".ForgotPass"
+            android:exported="false" />
+        <activity
             android:name=".RiderRegistration"
             android:exported="false" />
         <activity
