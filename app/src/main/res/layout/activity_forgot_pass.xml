@@ -27,7 +27,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/rounded_corner"
-        android:backgroundTint="#C4C4C4"
+        android:backgroundTint="@color/bg_tint"
         android:hint="Email"
         android:padding="20dp" />
 
