@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -221,7 +222,7 @@ public class RegisterUser extends AppCompatActivity {
                                 if (task.isSuccessful()){
                                     Toast.makeText(RegisterUser.this,"User Registered Successfully", Toast.LENGTH_LONG).show();
                                     progressDialog.hide();
-                                    sendUserToMainActivity();
+                                    sendUserToLogin();
 
                                 }
                                 else {
@@ -248,8 +249,8 @@ public class RegisterUser extends AppCompatActivity {
     }
 
 
-    public void sendUserToMainActivity(){
-        Intent intent =new Intent(RegisterUser.this,MainActivity.class);
+    public void sendUserToLogin(){
+        Intent intent =new Intent(RegisterUser.this,LoginUser.class);
         intent.putExtra("username", username);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
