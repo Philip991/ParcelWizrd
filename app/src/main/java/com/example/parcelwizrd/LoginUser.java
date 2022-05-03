@@ -59,6 +59,7 @@ public class LoginUser extends AppCompatActivity {
         mUser=mAuth.getCurrentUser();
 
 
+
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
