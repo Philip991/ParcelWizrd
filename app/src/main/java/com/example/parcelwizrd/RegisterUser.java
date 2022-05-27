@@ -25,12 +25,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class RegisterUser extends AppCompatActivity {
 
     public static final String CUSTOMER_USERS = "CustomersUser";
+    public static final String ORDER = "Order";
 
     EditText Username, Email, FirstName,LastName,PhoneNumber, Address, City, State, Country, Password, confirmPass;
     Button Register;
@@ -41,6 +44,8 @@ public class RegisterUser extends AppCompatActivity {
     FirebaseUser mUser;
     String userID= "";
     private String username ="";
+
+    List <UserModel> mlist=new ArrayList<>();
 
 
 
@@ -195,54 +200,55 @@ public class RegisterUser extends AppCompatActivity {
            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
 
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                        userID=firebaseUser.getUid();
+                        userID = firebaseUser.getUid();
+                        for (UserModel userProfile : mlist) {
 
 
-                        reference = FirebaseDatabase.getInstance().getReference("User").child(RegisterUser.CUSTOMER_USERS).child(username);
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("id",userID);
-                        hashMap.put("Username", username);
-                        hashMap.put("Email", email);
-                        hashMap.put("First Name",firstName);
-                        hashMap.put("Last Name",lastName);
-                        hashMap.put("Phone Number",phoneNumber);
-                        hashMap.put("Address",address);
-                        hashMap.put("City",city);
-                        hashMap.put("State",state);
-                        hashMap.put("Country",country);
+                            reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(username);
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("id", userProfile.getID());
+                            hashMap.put("Username", userProfile.getUsername());
+                            hashMap.put("Email", userProfile.getEmail());
+                            hashMap.put("First Name", userProfile.getFirstName());
+                            hashMap.put("Last Name", userProfile.getLastName());
+                            hashMap.put("Phone Number", userProfile.getPhoneNumber());
+                            hashMap.put("Address", userProfile.getAddress());
+                            hashMap.put("City", userProfile.getCity());
+                            hashMap.put("State", userProfile.getState());
+                            hashMap.put("Country", userProfile.getCountry());
 
 
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(RegisterUser.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
+                                        progressDialog.hide();
+                                        sendUserToLogin();
 
-                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    Toast.makeText(RegisterUser.this,"User Registered Successfully", Toast.LENGTH_LONG).show();
-                                    progressDialog.hide();
-                                    sendUserToLogin();
-
+                                    } else {
+                                        Toast.makeText(RegisterUser.this, "Failed to register, try again!", Toast.LENGTH_LONG).show();
+                                        progressDialog.hide();
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(RegisterUser.this,"Failed to register, try again!", Toast.LENGTH_LONG).show();
-                                    progressDialog.hide();
-                                }
-                            }
-                        });
+                            });
+
+
+                        }
+                    }
+                    else{
+                            Toast.makeText(RegisterUser.this, "Error, Try again", Toast.LENGTH_LONG);
+                            progressDialog.hide();
+
+                        }
 
 
                     }
-                    else {
-                        Toast.makeText(RegisterUser.this,"Error, Try again",Toast.LENGTH_LONG);
-                        progressDialog.hide();
-
-                    }
 
 
-
-                }
             });
         }
 

@@ -203,7 +203,7 @@ public class RiderRegistration extends AppCompatActivity {
                         userID= firebaseUser.getUid();
 
 
-                        reference = FirebaseDatabase.getInstance().getReference("User").child(RiderRegistration.CUSTOMER_USERS).child(username);
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RiderRegistration.CUSTOMER_USERS).child(username);
                         HashMap<String, String>hashMap= new HashMap<>();
                         hashMap.put("id", userID);
                         hashMap.put("Username", username);

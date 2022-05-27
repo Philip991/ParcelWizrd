@@ -16,7 +16,7 @@ import com.example.parcelwizrd.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import org.apache.commons.io.FileUtils;
+//import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         arrayList= new ArrayList<String>();
-        itemReader();
+      //  itemReader();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayList);
-        itemWriter();
+      //  itemWriter();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
              switch (item.getItemId()){
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.nav_fragment,fragment);
         fragmentTransaction.commit();
     }
-
+/*
     public void itemReader(){
         File filesDir = getFilesDir();
         File  deliveryFile = new File(filesDir, "parcelWizrd.txt");
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 }

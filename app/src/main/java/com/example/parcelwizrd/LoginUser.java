@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +48,8 @@ public class LoginUser extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+
+
         Email = (EditText) findViewById(R.id.et_email);
         Password = (EditText) findViewById(R.id.et_password);
         Login = (Button) findViewById(R.id.btn_login);
@@ -81,6 +84,17 @@ public class LoginUser extends AppCompatActivity {
                 startActivity(new Intent(LoginUser.this,ForgotPass.class));
             }
         });
+
+        mUser =FirebaseAuth.getInstance().getCurrentUser();
+        if(mUser != null){
+            Intent i = new Intent(LoginUser.this, MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+        }else{
+
+
+        }
 
     }
 
@@ -121,7 +135,7 @@ public class LoginUser extends AppCompatActivity {
                         progressDialog.hide();
                     }
                     else{
-                        Toast.makeText(LoginUser.this, "Error, Try again",Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginUser.this, "UserModel not Found",Toast.LENGTH_LONG).show();
                         progressDialog.hide();
                     }
 
