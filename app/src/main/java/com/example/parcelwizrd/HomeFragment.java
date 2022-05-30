@@ -169,8 +169,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getContext(), OrderPayment.class));
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Something went wrong",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

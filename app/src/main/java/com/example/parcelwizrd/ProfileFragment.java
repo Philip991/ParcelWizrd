@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment  {
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    mlist.clear();
+
                 }
 
                 @Override

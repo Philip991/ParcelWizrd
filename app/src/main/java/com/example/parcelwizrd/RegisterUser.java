@@ -240,14 +240,13 @@ public class RegisterUser extends AppCompatActivity {
                         }
                     }
                     else{
-                            Toast.makeText(RegisterUser.this, "Error, Try again", Toast.LENGTH_LONG);
+                            Toast.makeText(RegisterUser.this, "Error, Try again", Toast.LENGTH_LONG).show();
                             progressDialog.hide();
 
                         }
 
 
                     }
-
 
             });
         }
