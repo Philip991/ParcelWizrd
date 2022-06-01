@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment  {
     Button logout;
     TextView GreetingTv;
 
-    List<UserModel> mlist = new ArrayList<>();
+    List<UserModel> mList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment  {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-        logout=(Button) view.findViewById(R.id.logout_btn);
+        logout = (Button) view.findViewById(R.id.logout_btn);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,52 +61,44 @@ public class ProfileFragment extends Fragment  {
         reference=FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();*/
 
-        final TextView UsernameTv= (TextView) view.findViewById(R.id.username);
-        final TextView EmailAddressTv=(TextView) view.findViewById(R.id.emailAddress);
-        final TextView FullNameTv=(TextView) view.findViewById(R.id.fullName);
-        final TextView GreetingTv=(TextView)view.findViewById(R.id.greeting);
+        final TextView UsernameTv = (TextView) view.findViewById(R.id.username);
+        final TextView EmailAddressTv = (TextView) view.findViewById(R.id.emailAddress);
+        final TextView FullNameTv = (TextView) view.findViewById(R.id.fullName);
+        final TextView GreetingTv = (TextView) view.findViewById(R.id.greeting);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userID = firebaseUser.getUid();
-        if (firebaseUser.getUid() !=null){
+        if (firebaseUser.getUid() != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(userID);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //mList.clear();
+                    UserModel userModel = snapshot.getValue(UserModel.class);
+                    if (userModel != null) {
+                        String Username = userModel.getUsername();
+                        String Email = userModel.getEmail();
+                        String FirstName = userModel.getFirstName();
+                        String LastName = userModel.getLastName();
+
+
+                        UsernameTv.setText(Username);
+                        EmailAddressTv.setText(Email);
+                        FullNameTv.setText(FirstName + LastName);
+                        GreetingTv.setText("Hello" + FirstName);
+                    }
+
 
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(getContext(), "Error getting Profile details", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-      /*  reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               UserModel userProfile = snapshot.getValue(UserModel.class);
 
-               if(userProfile!=null){
-
-
-                    String Username = userProfile.Username;
-                    String Email = userProfile.Email;
-                    String FirstName = userProfile.FirstName;
-
-                    UsernameTv.setText(Username);
-                    EmailAddressTv.setText(Email);
-                    GreetingTv.setText("Welcome"+FirstName);
-               }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(),"Error",Toast.LENGTH_LONG).show();
-
-            }
-        });*/
 
 
 

@@ -135,7 +135,7 @@ public class LoginUser extends AppCompatActivity {
                         progressDialog.hide();
                     }
                     else{
-                        Toast.makeText(LoginUser.this, "UserModel not Found",Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginUser.this, "User not Found",Toast.LENGTH_LONG).show();
                         progressDialog.hide();
                     }
 

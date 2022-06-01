@@ -46,10 +46,11 @@ public class OrdersFragment extends Fragment {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
-                    UserOrderModel UserOrderModel= dataSnapshot.getValue(UserOrderModel.class);
-                    mList.add(UserOrderModel);
+                    UserOrderModel uModel= dataSnapshot.getValue(UserOrderModel.class);
+                    mList.add(uModel);
                 }
                 Adapter = new UserShowOrderAdapter(getContext(),mList);
                 ShowOrders.setAdapter(Adapter);

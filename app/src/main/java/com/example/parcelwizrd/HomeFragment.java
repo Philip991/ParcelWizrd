@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     EditText PickUp, DropOff, PickUpFirstName, PickUpLastName, PickUpNumber, PickUPEmail, DeliveryFirstName, DeliveryLastName, DeliveryNumber, DeliveryEmail;
     CheckBox Bike_CB, Car_CB, Van_CB, Lorry_CB;
     Button Proceed;
+
 
     List<UserOrderModel> mlist = new ArrayList<>();
 
@@ -73,14 +75,57 @@ public class HomeFragment extends Fragment {
         DeliveryEmail =(EditText) view.findViewById(R.id.delivery_email);
 
 
+
+
         Proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 proceed();
+                startActivity(new Intent(getContext(), OrderPayment.class));
             }
         });
 
+        Bike_CB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Car_CB.setChecked(false);
+                    Van_CB.setChecked(false);
+                    Lorry_CB.setChecked(false);
+                }
+            }
+        });
+        Car_CB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Bike_CB.setChecked(false);
+                    Van_CB.setChecked(false);
+                    Lorry_CB.setChecked(false);
+                }
+            }
+        });
+        Van_CB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Bike_CB.setChecked(false);
+                    Car_CB.setChecked(false);
+                    Lorry_CB.setChecked(false);
+                }
+            }
+        });
 
+        Lorry_CB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    Bike_CB.setChecked(false);
+                    Car_CB.setChecked(false);
+                    Van_CB.setChecked(false);
+                }
+            }
+        });
 
 
         return view;
