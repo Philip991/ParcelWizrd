@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parcelwizrd.Model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -196,27 +196,12 @@ public class RegisterUser extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         userID = firebaseUser.getUid();
-                        for (UserModel userProfile : mList) {
+                        UserModel userModel = new UserModel(username,email,firstName,lastName,userID,phoneNumber,address,city,state,country);
 
 
-                            reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(userID);
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", userProfile.getID());
-                            hashMap.put("Username", userProfile.getUsername());
-                            hashMap.put("Email", userProfile.getEmail());
-                            hashMap.put("First Name", userProfile.getFirstName());
-                            hashMap.put("Last Name", userProfile.getLastName());
-                            hashMap.put("Phone Number", userProfile.getPhoneNumber());
-                            hashMap.put("Address", userProfile.getAddress());
-                            hashMap.put("City", userProfile.getCity());
-                            hashMap.put("State", userProfile.getState());
-                            hashMap.put("Country", userProfile.getCountry());
-
-
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(userID).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
@@ -232,7 +217,7 @@ public class RegisterUser extends AppCompatActivity {
                             });
 
 
-                        }
+
                     }
                     else{
                             Toast.makeText(RegisterUser.this, "Error, Try again", Toast.LENGTH_LONG).show();

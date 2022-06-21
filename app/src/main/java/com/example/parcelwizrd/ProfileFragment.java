@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parcelwizrd.Model.UserModel;
 import com.example.parcelwizrd.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,12 +33,12 @@ public class ProfileFragment extends Fragment  {
 
 
 
-    /*ActivityMainBinding binding;
+    ActivityMainBinding binding;
     private FirebaseUser user;
     private DatabaseReference reference;
-    private String userID;*/
+    private String userID;
     Button logout;
-    TextView GreetingTv;
+    //TextView GreetingTv;
 
     List<UserModel> mList = new ArrayList<>();
 
@@ -57,35 +58,34 @@ public class ProfileFragment extends Fragment  {
             }
         });
 
-        /*user = FirebaseAuth.getInstance().getCurrentUser();
-        reference=FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();*/
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference=FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS);
+        userID = user.getUid();
+
+        //GreetingTv = (TextView) view.findViewById(R.id.greeting);
 
         final TextView UsernameTv = (TextView) view.findViewById(R.id.username);
         final TextView EmailAddressTv = (TextView) view.findViewById(R.id.emailAddress);
         final TextView FullNameTv = (TextView) view.findViewById(R.id.fullName);
         final TextView GreetingTv = (TextView) view.findViewById(R.id.greeting);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userID = firebaseUser.getUid();
-        if (firebaseUser.getUid() != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(userID);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //mList.clear();
                     UserModel userModel = snapshot.getValue(UserModel.class);
                     if (userModel != null) {
-                        String Username = userModel.getUsername();
-                        String Email = userModel.getEmail();
-                        String FirstName = userModel.getFirstName();
-                        String LastName = userModel.getLastName();
+                        String Username = userModel.Username;
+                        String Email = userModel.Email;
+                        String FirstName = userModel.FirstName;
+                        String LastName = userModel.LastName;
 
 
                         UsernameTv.setText(Username);
                         EmailAddressTv.setText(Email);
-                        FullNameTv.setText(FirstName + LastName);
-                        GreetingTv.setText("Hello" + FirstName);
+                        FullNameTv.setText(FirstName +""+ LastName);
+                        GreetingTv.setText("Hello " + FirstName);
+
+
                     }
 
 
@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment  {
                     Toast.makeText(getContext(), "Error getting Profile details", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
+
 
 
 

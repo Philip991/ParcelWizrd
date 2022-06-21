@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.parcelwizrd.Model.UserOrderModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,7 @@ public class OrdersFragment extends Fragment {
 
     RecyclerView ShowOrders;
     DatabaseReference reference;
-    UserShowOrderAdapter Adapter;
+    //UserShowOrderAdapter Adapter;
     ArrayList<UserOrderModel> mList;
     View view;
     String userID;
@@ -40,8 +41,8 @@ public class OrdersFragment extends Fragment {
         ShowOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mList= new ArrayList<UserOrderModel>();
-        Adapter = new UserShowOrderAdapter(getActivity(),mList);
-        ShowOrders.setAdapter(Adapter);
+        //Adapter = new UserShowOrderAdapter(getActivity(),mList);
+       // ShowOrders.setAdapter(Adapter);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -52,8 +53,8 @@ public class OrdersFragment extends Fragment {
                     UserOrderModel uModel= dataSnapshot.getValue(UserOrderModel.class);
                     mList.add(uModel);
                 }
-                Adapter = new UserShowOrderAdapter(getContext(),mList);
-                ShowOrders.setAdapter(Adapter);
+                //Adapter = new UserShowOrderAdapter(getContext(),mList);
+               // ShowOrders.setAdapter(Adapter);
             }
 
             @Override

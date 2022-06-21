@@ -1,5 +1,6 @@
 package com.example.parcelwizrd;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,12 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parcelwizrd.Model.UserModel;
+import com.example.parcelwizrd.Model.UserOrderModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,15 +37,25 @@ import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment {
 
+    //public static final String ORDERS = "Orders" ;
+
     View view;
 
     TextView Greeting;
     EditText PickUp, DropOff, PickUpFirstName, PickUpLastName, PickUpNumber, PickUPEmail, DeliveryFirstName, DeliveryLastName, DeliveryNumber, DeliveryEmail;
     CheckBox Bike_CB, Car_CB, Van_CB, Lorry_CB;
     Button Proceed;
+    private String username= "";
+
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private String userID="";
+    private FirebaseAuth mAuth;
 
 
     List<UserOrderModel> mlist = new ArrayList<>();
+
+    ProgressDialog progressDialog;
 
 
     String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
@@ -57,7 +73,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Greeting = view.findViewById(R.id.greeting);
         Proceed =(Button) view.findViewById(R.id.proceed);
         Bike_CB = (CheckBox) view.findViewById(R.id.cb_bike);
         Car_CB= (CheckBox) view.findViewById(R.id.cb_car);
@@ -81,7 +96,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 proceed();
-                startActivity(new Intent(getContext(), OrderPayment.class));
             }
         });
 
@@ -92,6 +106,7 @@ public class HomeFragment extends Fragment {
                     Car_CB.setChecked(false);
                     Van_CB.setChecked(false);
                     Lorry_CB.setChecked(false);
+
                 }
             }
         });
@@ -126,104 +141,133 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference=FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS);
+        userID = user.getUid();
+
+        final TextView GreetingTv = (TextView) view.findViewById(R.id.greeting);
+
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserModel userModel = snapshot.getValue(UserModel.class);
+                if (userModel != null) {
+
+                    String FirstName = userModel.FirstName;
+
+
+
+                    GreetingTv.setText("Welcome, " + FirstName);
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error getting Profile details", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
         return view;
     }
 
     private void proceed() {
-        String pickUp= PickUp.getText().toString();
-        String dropOff=DropOff.getText().toString();
-        String pickUpFirstName=PickUpFirstName.getText().toString();
-        String pickUpLastName=PickUpLastName.getText().toString();
-        String pickUpNumber=PickUpNumber.getText().toString();
-        String pickUpEmail=PickUPEmail.getText().toString();
-        String deliveryFirstName=DeliveryFirstName.getText().toString();
-        String deliveryLastName=DeliveryLastName.getText().toString();
-        String deliveryNumber=DeliveryNumber.getText().toString();
-        String deliveryEmail=DeliveryEmail.getText().toString();
+        String pickUp = PickUp.getText().toString();
+        String dropOff = DropOff.getText().toString();
+        String pickUpFirstName = PickUpFirstName.getText().toString();
+        String pickUpLastName = PickUpLastName.getText().toString();
+        String pickUpNumber = PickUpNumber.getText().toString();
+        String pickUpEmail = PickUPEmail.getText().toString();
+        String deliveryFirstName = DeliveryFirstName.getText().toString();
+        String deliveryLastName = DeliveryLastName.getText().toString();
+        String deliveryNumber = DeliveryNumber.getText().toString();
+        String deliveryEmail = DeliveryEmail.getText().toString();
 
 
-        if (pickUp.isEmpty()){
+        if (pickUp.isEmpty()) {
             PickUp.setError("Enter PickUp Location");
             PickUp.requestFocus();
             return;
         }
-        if (dropOff.isEmpty()){
+        if (dropOff.isEmpty()) {
             DropOff.setError("Enter DropOff Location");
             DropOff.requestFocus();
             return;
         }
-        if (pickUpFirstName.isEmpty()){
+        if (pickUpFirstName.isEmpty()) {
             PickUpFirstName.setError("First Name Required");
             PickUpFirstName.requestFocus();
             return;
         }
-        if (pickUpLastName.isEmpty()){
+        if (pickUpLastName.isEmpty()) {
             PickUpLastName.setError("Last Name Required");
             PickUpLastName.requestFocus();
             return;
         }
-        if (pickUpNumber.isEmpty()){
+        if (pickUpNumber.isEmpty()) {
             PickUpNumber.setError("Phone Number Required");
             PickUpNumber.requestFocus();
             return;
         }
-        if (!pat.matcher(pickUpEmail).matches()){
+        if (!pat.matcher(pickUpEmail).matches()) {
             PickUPEmail.setError("Enter a Valid Email");
             PickUPEmail.requestFocus();
             return;
         }
-        if (deliveryFirstName.isEmpty()){
+        if (deliveryFirstName.isEmpty()) {
             DeliveryFirstName.setError("First Name Required");
             DeliveryFirstName.requestFocus();
             return;
         }
-        if (deliveryLastName.isEmpty()){
+        if (deliveryLastName.isEmpty()) {
             DeliveryLastName.setError("Last Name Required");
             DeliveryLastName.requestFocus();
             return;
         }
-        if (deliveryNumber.isEmpty()){
+        if (deliveryNumber.isEmpty()) {
             DeliveryNumber.setError("Phone Number Required");
             DeliveryNumber.requestFocus();
             return;
         }
-        if (!pat.matcher(deliveryEmail).matches()){
+        if (!pat.matcher(deliveryEmail).matches()) {
             DeliveryEmail.setError("Enter a Valid Email");
             DeliveryEmail.requestFocus();
             return;
-        }
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userID= firebaseUser.getUid();
-        for (UserOrderModel Order: mlist){
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.ORDER).child(userID);
-            HashMap<String, String>hashMap= new HashMap<>();
-            hashMap.put("PickUp Location", Order.getPickUp());
-            hashMap.put("DropOff Location",Order.getDropOff());
-            hashMap.put("PickUp First Name", Order.getPickUpFirstName());
-            hashMap.put("PickUp Last Name",Order.getPickUpLastName());
-            hashMap.put("PickUp Phone Number",Order.getPickUpNumber());
-            hashMap.put("PickUp Email", Order.getPickUpEmail());
-            hashMap.put("Delivery First Name", Order.getDeliveryFirstName());
-            hashMap.put("Delivery Last Name", Order.getDeliveryLastName());
-            hashMap.put("Delivery Phone Number", Order.getDeliveryNumber());
-            hashMap.put("Delivery Email", Order.getDeliveryEmail());
+        } else {
 
-            reference.push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getContext(), OrderPayment.class));
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Something went wrong",Toast.LENGTH_SHORT).show();
-                    }
+            progressDialog.setMessage("Processing your Order...");
+            progressDialog.setTitle("Loading..");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+            //userID = firebaseUser.getUid();
+            reference=FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.ORDER).child(userID);
+
+            UserOrderModel userOrderModel = new UserOrderModel(pickUp, dropOff,pickUpFirstName,pickUpLastName,pickUpNumber,pickUpEmail,deliveryFirstName,deliveryLastName,deliveryNumber,deliveryEmail);
+
+
+            reference.push().setValue(userOrderModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    progressDialog.hide();
+
+
+                } else {
+                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    progressDialog.hide();
                 }
-            });
-        }
+            }
+        });
 
+    }
 
     }
 

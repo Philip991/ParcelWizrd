@@ -1,18 +1,18 @@
-package com.example.parcelwizrd;
+package com.example.parcelwizrd.Model;
 
 public class UserOrderModel {
-    private String pickUp;
-    private String dropOff;
-    private String pickUpFirstName;
-    private String pickUpLastName;
-    private String pickUpNumber;
-    private String pickUpEmail;
-    private String deliveryFirstName;
-    private String deliveryLastName;
-    private String deliveryNumber;
-    private String deliveryEmail;
+    public String pickUp;
+    public String dropOff;
+    public String pickUpFirstName;
+    public String pickUpLastName;
+    public String pickUpNumber;
+    public String pickUpEmail;
+    public String deliveryFirstName;
+    public String deliveryLastName;
+    public String deliveryNumber;
+    public String deliveryEmail;
 
-    public String getPickUp(){
+   /* public String getPickUp(){
         return pickUp;
     }
     public void setPickUp(String pickUp){
@@ -72,6 +72,8 @@ public class UserOrderModel {
     public void setDeliveryEmail(String deliveryEmail){
         this.deliveryEmail=deliveryEmail;
     }
+
+    */
 
     public UserOrderModel(){
 

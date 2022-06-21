@@ -1,18 +1,18 @@
-package com.example.parcelwizrd;
+package com.example.parcelwizrd.Model;
 
 public class UserModel {
-    private String Username;
-    private String Email;
-    private String FirstName;
-    private String LastName;
-    private String ID;
-    private String PhoneNumber;
-    private String Address;
-    private String City;
-    private String State;
-    private String Country;
+    public String Username;
+    public String Email;
+    public String FirstName;
+    public String LastName;
+    public String ID;
+    public String PhoneNumber;
+    public String Address;
+    public String City;
+    public String State;
+    public String Country;
 
-    public String getUsername(){
+    /*public String getUsername(){
         return Username;
     }
     public void setUsername(String username){
@@ -72,6 +72,7 @@ public class UserModel {
     public void setCountry(String country){
         this.Country=country;
     }
+     */
 
 
 
