@@ -25,10 +25,10 @@ public class OrdersFragment extends Fragment {
 
     RecyclerView ShowOrders;
     DatabaseReference reference;
-    //UserShowOrderAdapter Adapter;
+    UserShowOrderAdapter myAdapter;
     ArrayList<UserOrderModel> mList;
     View view;
-    String userID;
+    String userID="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,11 +40,13 @@ public class OrdersFragment extends Fragment {
         ShowOrders.setHasFixedSize(true);
         ShowOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mList= new ArrayList<UserOrderModel>();
-        //Adapter = new UserShowOrderAdapter(getActivity(),mList);
-       // ShowOrders.setAdapter(Adapter);
+        mList= new ArrayList<>();
+        myAdapter = new UserShowOrderAdapter(getActivity(),mList);
+        ShowOrders.setAdapter(myAdapter);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mList.clear();
@@ -53,6 +55,7 @@ public class OrdersFragment extends Fragment {
                     UserOrderModel uModel= dataSnapshot.getValue(UserOrderModel.class);
                     mList.add(uModel);
                 }
+                myAdapter.notifyDataSetChanged();
                 //Adapter = new UserShowOrderAdapter(getContext(),mList);
                // ShowOrders.setAdapter(Adapter);
             }
@@ -66,6 +69,9 @@ public class OrdersFragment extends Fragment {
 
         return view;
     }
+
+
+
 
     public OrdersFragment(){
 

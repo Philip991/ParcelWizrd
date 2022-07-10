@@ -30,14 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 
 public class HomeFragment extends Fragment {
 
-    //public static final String ORDERS = "Orders" ;
+    public static final String ORDERS = "Orders" ;
 
     View view;
 
@@ -47,13 +46,13 @@ public class HomeFragment extends Fragment {
     Button Proceed;
     private String username= "";
 
-    private FirebaseUser user;
-    private DatabaseReference reference;
-    private String userID="";
+    FirebaseUser user;
+    DatabaseReference reference;
+    String userID="";
     private FirebaseAuth mAuth;
 
 
-    List<UserOrderModel> mlist = new ArrayList<>();
+    List<UserOrderModel> mList = new ArrayList<>();
 
     ProgressDialog progressDialog;
 
@@ -246,18 +245,19 @@ public class HomeFragment extends Fragment {
             progressDialog.show();
 
             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-            //userID = firebaseUser.getUid();
+            userID = firebaseUser.getUid();
             reference=FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.ORDER).child(userID);
-
             UserOrderModel userOrderModel = new UserOrderModel(pickUp, dropOff,pickUpFirstName,pickUpLastName,pickUpNumber,pickUpEmail,deliveryFirstName,deliveryLastName,deliveryNumber,deliveryEmail);
 
 
-            reference.push().setValue(userOrderModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            FirebaseDatabase.getInstance().getReference("Users").child(RegisterUser.CUSTOMER_USERS).child(HomeFragment.ORDERS).child(userID).push().setValue(userOrderModel)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
                     progressDialog.hide();
+                    sendUserToOrders();
 
 
                 } else {
@@ -269,6 +269,12 @@ public class HomeFragment extends Fragment {
 
     }
 
+    }
+
+    private void sendUserToOrders() {
+        Intent intent = new Intent(getActivity(), OrdersFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 

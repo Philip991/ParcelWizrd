@@ -20,34 +20,42 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
-public class LoginUser extends AppCompatActivity {
+public class LoginRider extends AppCompatActivity {
 
     EditText Email, Password;
     Button Login;
-    TextView ForgotPass, Register, LoginRider;
-
-    ProgressDialog progressDialog;
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
+    TextView ForgotPass, RegisterBtn, LoginUser;
 
     String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
+
     Pattern pat = Pattern.compile(emailRegex);
+
+    ProgressDialog progressDialog;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_user);
+        setContentView(R.layout.activity_login_rider);
 
         getSupportActionBar().hide();
 
-        Email = (EditText) findViewById(R.id.et_email);
-        Password = (EditText) findViewById(R.id.et_password);
-        Login = (Button) findViewById(R.id.btn_login);
+        Email=(EditText) findViewById(R.id.et_email);
+        Password=(EditText) findViewById(R.id.et_password);
+        Login=(Button) findViewById(R.id.btn_login);
         ForgotPass=(TextView) findViewById(R.id.forgot_pass);
-        Register=(TextView) findViewById(R.id.btn_register);
-        LoginRider=(TextView) findViewById(R.id.login_rider);
+        RegisterBtn=(TextView) findViewById(R.id.register_btn);
+        LoginUser=(TextView) findViewById(R.id.login_user);
 
         progressDialog = new ProgressDialog(this);
 
@@ -55,61 +63,45 @@ public class LoginUser extends AppCompatActivity {
         mUser=mAuth.getCurrentUser();
 
 
-
-        Register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginUser.this, RegisterUser.class));
-            }
-        });
-
-        Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userLogin();
-
-            }
-        });
         ForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginUser.this, ForgotPass.class));
 
             }
         });
-
-        LoginRider.setOnClickListener(new View.OnClickListener() {
+        RegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginUser.this, LoginRider.class));
+                startActivity(new Intent(LoginRider.this, RiderRegistration.class));
 
             }
         });
+        LoginUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginRider.this, com.example.parcelwizrd.LoginUser.class));
 
-        mUser =FirebaseAuth.getInstance().getCurrentUser();
-        if(mUser != null){
-            Intent i = new Intent(LoginUser.this, MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-
-        }else{
-
-
-        }
-
+            }
+        });
+        Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RiderLogin();
+            }
+        });
     }
 
-    private void userLogin(){
-        String email = Email.getText().toString().trim();
+    private void RiderLogin() {
+        String email= Email.getText().toString().trim();
         String password = Password.getText().toString().trim();
 
-        if (email.isEmpty()){
+        if(email.isEmpty()){
             Email.setError("Email is required");
             Email.requestFocus();
             return;
         }
-        if (!pat.matcher(email).matches()){
-            Email.setError("Enter a valid Email");
+        if(!pat.matcher(email).matches()){
+            Email.setError("Enter a Valid Email");
             Email.requestFocus();
             return;
         }
@@ -118,39 +110,33 @@ public class LoginUser extends AppCompatActivity {
             Password.requestFocus();
             return;
         }
-
         else{
             progressDialog.setMessage("loading your account...");
             progressDialog.setTitle("Loading..");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                     if(task.isSuccessful()){
-                        Toast.makeText(LoginUser.this,"Login Successful",Toast.LENGTH_LONG).show();
-                        sendUserToMainActivity();
+                        Toast.makeText(LoginRider.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        SendUserToLandingPage();
+                        progressDialog.hide();
+                    }else{
+                        Toast.makeText(LoginRider.this, "Error Logging in", Toast.LENGTH_SHORT).show();
                         progressDialog.hide();
                     }
-                    else{
-                        Toast.makeText(LoginUser.this, "User not Found",Toast.LENGTH_LONG).show();
-                        progressDialog.hide();
-                    }
-
                 }
             });
+
         }
     }
-    public void sendUserToMainActivity(){
-        Intent intent =new Intent(LoginUser.this,MainActivity.class);
+
+    private void SendUserToLandingPage() {
+        Intent intent = new Intent(LoginRider.this, RiderLandingPage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
-
     }
-
-
 }

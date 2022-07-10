@@ -1,6 +1,5 @@
 package com.example.parcelwizrd;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,18 +7,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-
-import com.example.parcelwizrd.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 //import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import com.example.parcelwizrd.databinding.ActivityMainBinding;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding= ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
         getSupportActionBar().hide();

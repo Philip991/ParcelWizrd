@@ -42,12 +42,7 @@ public class RegisterUser extends AppCompatActivity {
 
     List <UserModel> mList =new ArrayList<>();
 
-
-
-
     DatabaseReference reference;
-
-
 
     ProgressDialog progressDialog;
 
@@ -98,7 +93,7 @@ public class RegisterUser extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterUser.this,LoginUser.class));
+                startActivity(new Intent(RegisterUser.this, LoginUser.class));
                 finish();
             }
         });
@@ -106,7 +101,7 @@ public class RegisterUser extends AppCompatActivity {
         riderRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterUser.this,RiderRegistration.class));
+                startActivity(new Intent(RegisterUser.this, RiderRegistration.class));
                 finish();
             }
         });

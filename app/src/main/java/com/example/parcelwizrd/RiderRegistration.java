@@ -9,10 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parcelwizrd.Model.RiderModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class RiderRegistration extends AppCompatActivity {
@@ -201,32 +199,16 @@ public class RiderRegistration extends AppCompatActivity {
                     if(task.isSuccessful()){
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         userID= firebaseUser.getUid();
+                        RiderModel riderModel = new RiderModel(userID,username, email, firstName, lastName, phoneNumber, address,city,state,country,vehicleMake,vehicleColor, vehicleNum);
 
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(RiderRegistration.CUSTOMER_USERS).child(username);
-                        HashMap<String, String>hashMap= new HashMap<>();
-                        hashMap.put("id", userID);
-                        hashMap.put("Username", username);
-                        hashMap.put("Email",email);
-                        hashMap.put("First Name",firstName);
-                        hashMap.put("Last Name",lastName);
-                        hashMap.put("Phone Number",phoneNumber);
-                        hashMap.put("Address",address);
-                        hashMap.put("City",city);
-                        hashMap.put("State",state);
-                        hashMap.put("Country",country);
-                        hashMap.put("Vehicle Make",vehicleMake);
-                        hashMap.put("Vehicle Color",vehicleColor);
-                        hashMap.put("Vehicle Registration Number",vehicleNum);
-
-
-                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        FirebaseDatabase.getInstance().getReference("Users").child(RiderRegistration.CUSTOMER_USERS).child(userID).setValue(riderModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(RiderRegistration.this,"Rider Registered Successfully",Toast.LENGTH_LONG).show();
                                     progressDialog.hide();
-                                    sendUserToMainActivity();
+                                    sendUserToLogin();
 
                                 }
                                 else{
@@ -246,8 +228,8 @@ public class RiderRegistration extends AppCompatActivity {
 
         }
     }
-    public void sendUserToMainActivity(){
-        Intent intent =new Intent(RiderRegistration.this,MainActivity.class);
+    public void sendUserToLogin(){
+        Intent intent =new Intent(RiderRegistration.this, LoginRider.class);
         //intent.putExtra("username", username);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
